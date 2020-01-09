@@ -6,6 +6,14 @@
 package lendle.courses.wp.finalexam;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +36,7 @@ public class LoginAction extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException{
         String id=request.getParameter("id");
         String password=request.getParameter("password");
         HttpSession session=request.getSession();
@@ -36,7 +44,22 @@ public class LoginAction extends HttpServlet {
         //並轉址到 showNotes.jsp
         //否則轉址到 index.jsp
         //請使用外轉址 (30%)
-        
+        /*response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+           Connection conn=DriverManager.getConnection("jdbc:derby://localhost/sample",
+                    "app", "app");
+           Statement stmt=conn.createStatement();
+           ResultSet rs=stmt.executeQuery("Select*from LOGIN where id='"+id+"'and password='"+password+"'");
+           if(rs.next()){
+  
+              session.setAttribute("id",id);
+              response.sendRedirect("showNotes.jsp");
+           }else{
+                response.sendRedirect("index.jsp");
+           }
+                   
+        }
         ////////////////////////////////////////////////////
     }
 

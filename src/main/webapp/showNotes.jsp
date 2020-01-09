@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="lendle.courses.wp.finalexam.Note"%>
 <%@page import="lendle.courses.wp.finalexam.UserData"%>
 <%@ page contentType="text/html" pageEncoding="utf-8"%>
@@ -25,6 +29,26 @@
       (20%)
       -->
       <table border="1" style="width: 90%">
+              <%
+                Class.forName("org.apache.derby.jdbc.ClientDriver");
+                Connection conn = DriverManager.getConnection("jdbc:derby://localhost/sample",
+                       "app", "app");
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("Select*from LOGIN");
+
+                while (rs.next()) {
+                    out.println("<tr>");
+                    out.println("<td>" + rs.getString("") + "</td>");
+                    out.println("<td>" + rs.getString("PASSWORD") + "</td>");
+                    out.println("<td>");
+                    //out.println("<a href='delete?id="+rs.getString("ID")+"'>DELETE</a>");
+                    out.println("</td>");
+                    out.println("</tr>");
+                }
+                conn.close();
+
+
+            %>
           <thead>
               <tr>
                   <th>Date</th>
